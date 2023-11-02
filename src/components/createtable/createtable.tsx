@@ -91,7 +91,7 @@ export const CreateTable: React.FC = () => {
 
   return (
     <StyledDashboardWrap>
-      <button onClick={createCell}>Добавить ячейку</button>
+      <button onClick={createCell}>Добавить столбец</button>
       <StyledCellsList id="cellswrap">
         {data.map((item) => (
           <StyledTableCellOptions key={item.id} isOpen={item.isOpen}>

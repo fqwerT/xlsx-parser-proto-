@@ -14,7 +14,8 @@ export const StyledCellsList = styled.article`
   flex-direction: row;
   max-width: 100%;
   overflow-x: auto;
- min-height: 50%;
+  min-height: 46%;
+  max-height:46%;
 `;
 
 export const StyledTableCellOptions = styled.div<{ isOpen: boolean }>`
@@ -72,6 +73,7 @@ export const StyledFormulaTool = styled.div<{ isOpen: boolean }>`
   p {
     padding: 5px;
     font-weight: 700;
+    font-size:13px;
   }
 `;
 

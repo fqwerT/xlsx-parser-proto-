@@ -4,6 +4,7 @@ import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
 import { StyledDashboardWrap } from "../dashboard/style";
 import { HyperFormula } from "hyperformula";
+import { ExportBtn } from "../export/export";
 import  "./style.css";
 registerAllModules();
 
@@ -45,7 +46,7 @@ export const Table: React.FC = () => {
     "Игорь Ахматов <igor.akhmatov@dowire.ru>",
     "",
   ]);
-
+  const hotRef = useRef(null);
   const hyperformulaInstance = HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
@@ -53,6 +54,7 @@ export const Table: React.FC = () => {
   return (
     <StyledDashboardWrap>
       <HotTable
+        ref={hotRef}
         data={[data]}
         colHeaders={[
           "Запрос на обновление",
@@ -103,6 +105,7 @@ export const Table: React.FC = () => {
         // enable the column menu
         dropdownMenu={true}
       />
+      <ExportBtn table={hotRef}/>
     </StyledDashboardWrap>
   );
 };
