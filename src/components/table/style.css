@@ -1,0 +1,13 @@
+.handsontable td {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: black;
+}
+
+
+
+.handsontable th {
+    background: #2e669d;
+    color: white;
+    font-weight: 600;
+}
