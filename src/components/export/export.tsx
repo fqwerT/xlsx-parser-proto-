@@ -1,39 +1,31 @@
 import React,{useEffect,useRef} from "react";
-
+import { utils,writeFile } from "xlsx";
 interface IExport {
     table:any
 }
 
-export const ExportBtn:React.FC<IExport> = ({table}) => {
-
-  
-
-    let buttonClickCallback;
-  
-    useEffect(() => {
+export const ExportBtn: React.FC<IExport> = ({ table }) => {
+  useEffect(() => {
+    let buttonClickCallback = () => {
       const hot = table.current.hotInstance;
-  
-      const exportPlugin = hot.getPlugin('exportFile');
-      buttonClickCallback = () => {
-        exportPlugin.downloadFile('csv', {
-          bom: false,
-          columnDelimiter: ',',
-          columnHeaders: false,
-          exportHiddenColumns: true,
-          exportHiddenRows: true,
-          fileExtension: 'csv',
-          filename: 'test_[YYYY]-[MM]-[DD]',
-          mimeType: 'text/csv',
-          rowDelimiter: '\r\n',
-          rowHeaders: true
-        });
-      };
-    });
-  
+      const data = hot.getData();
+      const sheet = utils.json_to_sheet(data);
+      const workbook = utils.book_new();
+      utils.book_append_sheet(workbook, sheet, 'Sheet1');
+      writeFile(workbook, 'test_[YYYY]-[MM]-[DD].xlsx');
+    };
 
-    return(
-        <div>
-            <button id="export-file" onClick={(...args) => buttonClickCallback(...args)}>Download CSV</button>
-        </div>
-    )
-}
+    const exportBtn = document.getElementById("export-file");
+    exportBtn.addEventListener("click", buttonClickCallback);
+    
+    return () => {
+      exportBtn.removeEventListener("click", buttonClickCallback);
+    };
+  }, [table]);
+
+  return (
+    <div>
+      <button id="export-file">Download CSV</button>
+    </div>
+  );
+};
