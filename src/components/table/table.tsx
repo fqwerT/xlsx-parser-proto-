@@ -5,12 +5,12 @@ import "handsontable/dist/handsontable.full.min.css";
 import { StyledDashboardWrap } from "../dashboard/style";
 import { HyperFormula } from "hyperformula";
 import { ExportBtn } from "../export/export";
-import  "./style.css";
+import "./style.css";
 registerAllModules();
 
 export const Table: React.FC = () => {
-   const [width,setWidth] = useState(0)
-   const [data, setData] = useState<string[] | number[]>([
+  const [width, setWidth] = useState(0)
+  const [data, setData] = useState<string[] | number[]>([
     "Обновить",
     "Типовые шкафы",
     "118.290 нов",
@@ -46,52 +46,53 @@ export const Table: React.FC = () => {
     "Игорь Ахматов <igor.akhmatov@dowire.ru>",
     "",
   ]);
+  const colHeader = [
+    "Запрос на обновление",
+    "ТИП",
+    "Артикул",
+    "Наименование",
+    "Доступно",
+    "FMRS",
+    "Avg_20-21",
+    "2021",
+    "2020",
+    "2019",
+    "2018",
+    "Частота обновления",
+    "мес	Последнее обновление",
+    "ДЕЙСТВИЕ",
+    "Срок действия цен",
+    "Цена без НДС",
+    "Цена без НДС за шт.",
+    "Цена без НДС за шт. руб",
+    "Цена без НДС с учетом UM",
+    "Примечаниe",
+    "Цена за ед без НДС, руб c UM",
+    "Поставщик",
+    "Артикул поставщика",
+    "Цена РУБ без НДС",
+    "Цена в валюте без НДС",
+    "КУРС",
+    "Валюта",
+    "Ед",
+    "Кол-во в упак шт.",
+    "учет НДС",
+    "учет UPSTR",
+    "Ответственный",
+    "Контактное лицо от поставщика",
+    "CHECKER",
+  ]
+
   const hotRef = useRef(null);
   const hyperformulaInstance = HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
-
   return (
     <StyledDashboardWrap>
       <HotTable
         ref={hotRef}
         data={[data]}
-        colHeaders={[
-          "Запрос на обновление",
-          "ТИП",
-          "Артикул",
-          "Наименование",
-          "Доступно",
-          "FMRS",
-          "Avg_20-21",
-          "2021",
-          "2020",
-          "2019",
-          "2018",
-          "Частота обновления",
-          "мес	Последнее обновление",
-          "ДЕЙСТВИЕ",
-          "Срок действия цен",
-          "Цена без НДС",
-          "Цена без НДС за шт.",
-          "Цена без НДС за шт. руб",
-          "Цена без НДС с учетом UM",
-          "Примечаниe",
-          "Цена за ед без НДС, руб c UM",
-          "Поставщик",
-          "Артикул поставщика",
-          "Цена РУБ без НДС",
-          "Цена в валюте без НДС",
-          "КУРС",
-          "Валюта",
-          "Ед",
-          "Кол-во в упак шт.",
-          "учет НДС",
-          "учет UPSTR",
-          "Ответственный",
-          "Контактное лицо от поставщика",
-          "CHECKER",
-        ]}
+        colHeaders={colHeader}
         formulas={{
           engine: hyperformulaInstance,
         }}
@@ -105,7 +106,7 @@ export const Table: React.FC = () => {
         // enable the column menu
         dropdownMenu={true}
       />
-      <ExportBtn table={hotRef}/>
+      <ExportBtn table={hotRef} headers={colHeader} />
     </StyledDashboardWrap>
   );
 };

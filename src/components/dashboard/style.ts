@@ -10,6 +10,6 @@ margin-top:20px;
 border:1px solid #2e669d;
 display:flex;
 flex-direction:column;
-justify-content: center;
+//justify-content: center;
 align-items:center;
 `
