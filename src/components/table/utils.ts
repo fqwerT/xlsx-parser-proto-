@@ -12,7 +12,6 @@ export const calculateLetters = (colHeader:string[]) => {
     }
 
     if (colHeader.length < alphabet.length) {
-      console.log('var2')
       const slots = alphabet.length - colHeader.length;
       let res = [];
       for (let i = 0; i < slots; i++) {

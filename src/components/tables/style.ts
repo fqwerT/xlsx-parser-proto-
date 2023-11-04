@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const StyledTablesList = styled.ul`
+export const StyledTablesList = styled.div`
 width:97.9%;
 height:90%;
 display:flex;
@@ -21,4 +21,14 @@ padding-right:5px;
 font-family: 'Montserrat', sans-serif;
 color: black;
 border: 1px solid lightgray;
+max-width:200px;
+`
+
+export const StyledTsblesMenu = styled.div`
+width: 100%;
+height:100%;
+display: flex;
+justify-content: center;
+align-items:center;
+flex-direction:column;
 `

@@ -16,12 +16,14 @@ interface SelectInputProps {
     isOpen: boolean;
     content: string;
   };
+  deleteCell:(id:string|number) => void;
 }
 
 const SelectInputMemo: React.FC<SelectInputProps> = ({
   changeCellValue,
   handleCellClick,
   item,
+  deleteCell,
 }) => {
     const isOpen = item.isOpen ? item.isOpen : false
   return (
@@ -29,9 +31,8 @@ const SelectInputMemo: React.FC<SelectInputProps> = ({
       <div style={{ display: "flex" }}>
         <S.StyledInputName
           $isOpen={isOpen}
-          value={item.title}
           onChange={(e) =>
-            changeCellValue(item.id, e.target.value, null, false)
+            changeCellValue(item.id, null, e.target.value, false)
           }
           onFocus={() => handleCellClick(item.id)}
         />
@@ -40,12 +41,18 @@ const SelectInputMemo: React.FC<SelectInputProps> = ({
         >
           +
         </S.StyledButtonOpenTools>
+        <S.StyledButtonOpenTools
+          onClick={() => deleteCell(item.id)}
+        >
+          x
+        </S.StyledButtonOpenTools>
       </div>
       <S.StyledFormulaTool $isOpen={isOpen}>
+       <p>добавить 2ю строку</p>
         <S.StyledInput
           placeholder="значение"
           onChange={(e) =>
-            changeCellValue(item.id, null, e.target.value, false)
+            changeCellValue(item.id, e.target.value, null, false)
           }
           onFocus={() => handleCellClick(item.id)}
         />

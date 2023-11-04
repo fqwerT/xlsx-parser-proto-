@@ -7,6 +7,8 @@ import { Dashboard } from "./components/dashboard/dashboard";
 import { TablesList } from "./components/tables/tables";
 import { Table } from "./components/table/table";
 import { CreateTable } from "./components/createtable/createtable";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 const rootElement = document.getElementById("root");
 if (!rootElement) {
   throw new Error("No element with id 'root' found");
@@ -31,11 +33,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/create",
-        element: <CreateTable/>,
+        element: <CreateTable />,
       },
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(rootElement);
-root.render(<RouterProvider router={router} />);
+root.render(
+  <Provider store={store}>
+    <RouterProvider router={router}></RouterProvider>
+  </Provider>
+);

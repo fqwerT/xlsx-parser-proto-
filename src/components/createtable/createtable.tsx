@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useRef } from "react";
 import { StyledDashboardWrap } from "../dashboard/style";
 import * as S from "./style";
 import { HotTable } from "@handsontable/react";
@@ -7,12 +7,17 @@ import "handsontable/dist/handsontable.full.min.css";
 import { HyperFormula } from "hyperformula";
 import { SelectInput } from "../selectinput/Selectinput";
 import { changeCell, createCell, adapterData } from "./utils";
+import { calculateLetters } from "../table/utils";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../store/hooks";
+import { setTable } from "../../store/table/table";
 registerAllModules();
 
 export const CreateTable: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
-
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const handleCellClick = useCallback((id: string) => {
     setSelected(id);
   }, []);
@@ -34,21 +39,50 @@ export const CreateTable: React.FC = () => {
   });
 
   //@ts-ignore
-  const dataMemo = useMemo(() => {
-  return adapterData(data)
+  const newStroke = useMemo(() => {
+    let stroke = [];
+    for (let i = 0; i < data.length; i++) {
+      stroke[i] = data[i].newStroke;
+    }
+    return stroke;
   }, [data]);
+
+  //@ts-ignore
+  const dataMemo = useMemo(() => {
+    return adapterData(data, newStroke);
+  }, [data, newStroke]);
+
+  const memoHeaders = useMemo(() => {
+    return calculateLetters(dataMemo[0]);
+  }, [dataMemo]);
+
+  const hotRef = useRef(null);
+
+  const saveData = () => {
+    dispatch(setTable(dataMemo));
+    navigate("/table");
+  };
+
+  const deleteCell = (id: string | number) => {
+    setData(data.filter((i) => i.id !== id));
+  };
 
   return (
     <StyledDashboardWrap>
-      <button onClick={() => createCell(setData, setSelected)}>
-        Добавить столбец
-      </button>
+      <S.StyledCreateTableHeader>
+        <S.StyledButton onClick={() => createCell(setData, setSelected)}>
+          Добавить столбец
+        </S.StyledButton>
+        <S.StyledInput placeholder="Название таблицы"/>
+      </S.StyledCreateTableHeader>
       <S.StyledCellsList id="cellswrap">
-        {data.map((item) => (
+        {data.map((item, index) => (
           <SelectInput
+            key={index}
             changeCellValue={changeCellValue}
             handleCellClick={handleCellClick}
             item={item}
+            deleteCell={deleteCell}
           />
         ))}
       </S.StyledCellsList>
@@ -57,10 +91,10 @@ export const CreateTable: React.FC = () => {
           <>
             <h1>Предпросмотр</h1>
             <HotTable
-              data={[dataMemo.listColumn]}
+              ref={hotRef}
+              data={dataMemo}
               //@ts-ignore
-              colHeaders={dataMemo.listHeader}
-          
+              colHeaders={memoHeaders}
               rowHeaders={true}
               copyPaste={true}
               height="100%"
@@ -73,6 +107,9 @@ export const CreateTable: React.FC = () => {
           </>
         )}
       </S.StyledTableDemo>
+      <S.StyledButton onClick={() => saveData()}>
+        Перейти к полному редактирвоанию
+      </S.StyledButton>
     </StyledDashboardWrap>
   );
 };

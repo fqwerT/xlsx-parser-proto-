@@ -1,6 +1,6 @@
 export const changeCell = (
   id: string | number,
-  title: string | null,
+  newStroke: string | null,
   content: string | number | null,
   isOpen: boolean = false,
   setData: React.Dispatch<React.SetStateAction<any[]>>,
@@ -8,8 +8,8 @@ export const changeCell = (
   setData((prevData) =>
     prevData.map((item) => {
       if (item.id === id) {
-        if (title) {
-          return { ...item, title };
+        if (newStroke) {
+          return { ...item, newStroke };
         }
         if (content) {
           return { ...item, content };
@@ -29,7 +29,6 @@ export  const createCell = (setData:React.Dispatch<React.SetStateAction<any[]>>,
     setData((prevData) => [
       ...prevData,
       {
-        title: `столбец ${prevData.length + 1}`,
         id: newId,
         isOpen: false,
         content: "",
@@ -38,12 +37,12 @@ export  const createCell = (setData:React.Dispatch<React.SetStateAction<any[]>>,
     setSelected(newId);
   };
 
-  export const adapterData = (data:any[]) => {
-    const listHeader = [];
+  export const adapterData = (data: any[], stroke: string[]) => {
     const listColumn = [];
     data.map((i) => {
       listColumn.push(i.content);
-      listHeader.push(i.title);
     });
-    return { listHeader, listColumn };
-  }
+     return [listColumn, stroke];
+  };
+
+

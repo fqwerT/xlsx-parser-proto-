@@ -15,9 +15,26 @@ export const Text = styled.input`
 `
 
 export const StyledInput = styled(Text)`
-
+&::placeholder {
+  font-weight: 600;
+}
+`
+export const StyledCreateTableHeader = styled.div`
+display:flex;
+justify-content: space-between;
+width:100%;
+align-items:center;
 `
 
+export const StyledButton = styled.button`
+max-width:160px;
+text-align:center;
+border:1px solid #2e669d;
+padding: 5px;
+border-radius:7px;
+font-family: "Montserrat", sans-serif;
+font-weight:600;
+`
 
 export const StyledCellsContainer = styled.div`
   display: flex;

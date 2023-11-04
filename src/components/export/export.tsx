@@ -9,10 +9,9 @@ export const ExportBtn: React.FC<IExport> = ({ table,headers }) => {
   useEffect(() => {
     let buttonClickCallback = () => {
       const hot = table.current.hotInstance;
-      const headers = hot.getColHeader();
+  
       const data = hot.getData();
       const sheetData = [];
-      sheetData.push(headers); // добавляем заголовки столбцов в начало массива данных
       sheetData.push(...data); // добавляем данные таблицы в массив данных
       const sheet = utils.aoa_to_sheet(sheetData);
       const workbook = utils.book_new();

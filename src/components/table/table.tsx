@@ -6,100 +6,28 @@ import { StyledDashboardWrap } from "../dashboard/style";
 import { HyperFormula } from "hyperformula";
 import { ExportBtn } from "../export/export";
 import "./style.css";
-import { TableNumeric } from "../tablenumeric/tablenumeric";
-import { calculateLetters } from "../tablenumeric/utils";
+import { useAppSelector } from "../../store/hooks";
+
+import { calculateLetters } from "./utils";
 registerAllModules();
 
 export const Table: React.FC = () => {
-  const [width, setWidth] = useState(0);
-  const [data, setData] = useState<string[] | number[]>([
-    "Обновить",
-    "Типовые шкафы",
-    "118.290 нов",
-    "Гильза опрессуемая с изоляцией DI 0 5-8 GPH",
-    "да",
-    "F",
-    "5",
-    "10",
-    "42",
-    "21",
-    "13",
-    "3,00",
-    "18.09.2023",
-    "",
-    "17.12.23",
-    "1,3",
-    "1,3",
-    "1 251,5",
-    "1 251,5",
-    "коэф по письму Гресько",
-    "0,65",
-    "КОМПАНИЯ АЙСИЭС ООО ",
-    "DI 0,5-8",
-    "1,58",
-    "1,58",
-    "1,00 ",
-    "руб",
-    "шт",
-    "1,00",
-    "да",
-    "нет",
-    "Посадских, Гресько Роман Славович",
-    "Игорь Ахматов <igor.akhmatov@dowire.ru>",
-    "",
-  ],);
-  const [colHeader, setColHeader] = useState([
-    "Запрос на обновление",
-    "ТИП",
-    "Артикул",
-    "Наименование",
-    "Доступно",
-    "FMRS",
-    "Avg_20-21",
-    "2021",
-    "2020",
-    "2019",
-    "2018",
-    "Частота обновления",
-    "мес	Последнее обновление",
-    "ДЕЙСТВИЕ",
-    "Срок действия цен",
-    "Цена без НДС",
-    "Цена без НДС за шт.",
-    "Цена без НДС за шт. руб",
-    "Цена без НДС с учетом UM",
-    "Примечаниe",
-    "Цена за ед без НДС, руб c UM",
-    "Поставщик",
-    "Артикул поставщика",
-    "Цена РУБ без НДС",
-    "Цена в валюте без НДС",
-    "КУРС",
-    "Валюта",
-    "Ед",
-    "Кол-во в упак шт.",
-    "учет НДС",
-    "учет UPSTR",
-    "Ответственный",
-    "Контактное лицо от поставщика",
-    "CHECKER",
-  ]);
-
   const hotRef = useRef(null);
   const hyperformulaInstance = HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
+  const table = useAppSelector((state) => state.table.data);
 
-  const alphabet = useMemo(() => {
-    return calculateLetters(colHeader);
-  }, []);
-  
+  if (!table) {
+    return <h1>loading</h1>;
+  }
+
   return (
     <StyledDashboardWrap>
       <HotTable
         ref={hotRef}
-        data={[colHeader]}
-        colHeaders={alphabet}
+        data={[table[1]]}
+        colHeaders={table[0]}
         formulas={{
           engine: hyperformulaInstance,
         }}
@@ -107,15 +35,12 @@ export const Table: React.FC = () => {
         manualColumnMove={true}
         copyPaste={true}
         height="80%"
-        width='100%'
-        colWidths='300'
+        width="100%"
         licenseKey="non-commercial-and-evaluation"
         filters={true}
         // enable the column menu
         dropdownMenu={true}
-        
       />
-      <ExportBtn table={hotRef} headers={colHeader} />
     </StyledDashboardWrap>
   );
 };
