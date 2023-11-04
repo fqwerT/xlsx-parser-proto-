@@ -60,6 +60,7 @@ export const CreateTable: React.FC = () => {
               data={[dataMemo.listColumn]}
               //@ts-ignore
               colHeaders={dataMemo.listHeader}
+          
               rowHeaders={true}
               copyPaste={true}
               height="100%"

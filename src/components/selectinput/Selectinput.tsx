@@ -1,5 +1,5 @@
 import React,{memo} from "react";
-import * as S from "../createtable/style";
+import * as S from "./style";
 
 
 interface SelectInputProps {
@@ -38,7 +38,7 @@ const SelectInputMemo: React.FC<SelectInputProps> = ({
         <S.StyledButtonOpenTools
           onClick={() => changeCellValue(item.id, null, null, true)}
         >
-          ∨
+          +
         </S.StyledButtonOpenTools>
       </div>
       <S.StyledFormulaTool $isOpen={isOpen}>

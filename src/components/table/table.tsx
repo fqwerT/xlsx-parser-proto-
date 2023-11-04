@@ -6,10 +6,12 @@ import { StyledDashboardWrap } from "../dashboard/style";
 import { HyperFormula } from "hyperformula";
 import { ExportBtn } from "../export/export";
 import "./style.css";
+import { TableNumeric } from "../tablenumeric/tablenumeric";
+import { calculateLetters } from "../tablenumeric/utils";
 registerAllModules();
 
 export const Table: React.FC = () => {
-  const [width, setWidth] = useState(0)
+  const [width, setWidth] = useState(0);
   const [data, setData] = useState<string[] | number[]>([
     "Обновить",
     "Типовые шкафы",
@@ -45,8 +47,8 @@ export const Table: React.FC = () => {
     "Посадских, Гресько Роман Славович",
     "Игорь Ахматов <igor.akhmatov@dowire.ru>",
     "",
-  ]);
-  const colHeader = [
+  ],);
+  const [colHeader, setColHeader] = useState([
     "Запрос на обновление",
     "ТИП",
     "Артикул",
@@ -81,30 +83,37 @@ export const Table: React.FC = () => {
     "Ответственный",
     "Контактное лицо от поставщика",
     "CHECKER",
-  ]
+  ]);
 
   const hotRef = useRef(null);
   const hyperformulaInstance = HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
+
+  const alphabet = useMemo(() => {
+    return calculateLetters(colHeader);
+  }, []);
+  
   return (
     <StyledDashboardWrap>
       <HotTable
         ref={hotRef}
-        data={[data]}
-        colHeaders={colHeader}
+        data={[colHeader]}
+        colHeaders={alphabet}
         formulas={{
           engine: hyperformulaInstance,
         }}
         rowHeaders={true}
         manualColumnMove={true}
         copyPaste={true}
-        height="100%"
-        width="100%"
+        height="80%"
+        width='100%'
+        colWidths='300'
         licenseKey="non-commercial-and-evaluation"
         filters={true}
         // enable the column menu
         dropdownMenu={true}
+        
       />
       <ExportBtn table={hotRef} headers={colHeader} />
     </StyledDashboardWrap>
