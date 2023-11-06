@@ -25,7 +25,7 @@ export const changeCell = (
 
 
 export  const createCell = (setData:React.Dispatch<React.SetStateAction<any[]>>,setSelected:React.Dispatch<React.SetStateAction<string>>) => {
-    const newId = Math.random().toString();
+    const newId = Date.now().toString();
     setData((prevData) => [
       ...prevData,
       {

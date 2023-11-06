@@ -1,6 +1,5 @@
 import React from "react";
 import { StyledDashboardWrap } from "../dashboard/style";
-
 import {Link} from 'react-router-dom'
 import * as S from "./style";
 import { useNavigate } from "react-router-dom";
