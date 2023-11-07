@@ -26,8 +26,8 @@ export const Table: React.FC = () => {
     <StyledDashboardWrap>
       <HotTable
         ref={hotRef}
-        data={[table[1]]}
-        colHeaders={table[0]}
+        data={table}
+        colHeaders={true}
         formulas={{
           engine: hyperformulaInstance,
         }}
@@ -41,6 +41,7 @@ export const Table: React.FC = () => {
         // enable the column menu
         dropdownMenu={true}
       />
+      <ExportBtn reftable={hotRef}/>
     </StyledDashboardWrap>
   );
 };

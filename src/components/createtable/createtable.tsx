@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from "react";
+import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { StyledDashboardWrap } from "../dashboard/style";
 import * as S from "./style";
 import { HotTable } from "@handsontable/react";
@@ -10,12 +10,14 @@ import { changeCell, createCell, adapterData } from "./utils";
 import { calculateLetters } from "../table/utils";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/hooks";
-import { setTable } from "../../store/table/table";
+import { setName, setTable } from "../../store/table/table";
+import { useDispatch } from "react-redux";
 registerAllModules();
 
 export const CreateTable: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
+  const [tableName,setTableName] = useState<string>('')
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleCellClick = useCallback((id: string) => {
@@ -52,10 +54,6 @@ export const CreateTable: React.FC = () => {
     return adapterData(data, newStroke);
   }, [data, newStroke]);
 
-  const memoHeaders = useMemo(() => {
-    return calculateLetters(dataMemo[0]);
-  }, [dataMemo]);
-
   const hotRef = useRef(null);
 
   const saveData = () => {
@@ -66,6 +64,15 @@ export const CreateTable: React.FC = () => {
   const deleteCell = (id: string | number) => {
     setData(data.filter((i) => i.id !== id));
   };
+  const handleTableName = (value:string) => {
+        setTableName(value)
+  }
+
+  useEffect(()=>{
+   if (tableName !== '') {
+     dispatch(setName(tableName))
+   }
+  },[tableName])
 
   return (
     <StyledDashboardWrap>
@@ -73,7 +80,7 @@ export const CreateTable: React.FC = () => {
         <S.StyledButton onClick={() => createCell(setData, setSelected)}>
           Добавить столбец
         </S.StyledButton>
-        <S.StyledInput placeholder="Название таблицы"/>
+        <S.StyledInput placeholder="Название таблицы" onChange={(e) => handleTableName(e.target.value)}/>
       </S.StyledCreateTableHeader>
       <S.StyledCellsList id="cellswrap">
         {data.map((item, index) => (
@@ -94,7 +101,7 @@ export const CreateTable: React.FC = () => {
               ref={hotRef}
               data={dataMemo}
               //@ts-ignore
-              colHeaders={memoHeaders}
+              colHeaders={true}
               rowHeaders={true}
               copyPaste={true}
               height="100%"

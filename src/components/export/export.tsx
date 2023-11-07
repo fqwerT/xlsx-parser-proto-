@@ -1,14 +1,15 @@
 import React,{useEffect,useRef} from "react";
+import { useAppSelector } from "../../store/hooks";
 import { utils,writeFile } from "xlsx";
 interface IExport {
-    table:any,
-    headers:string[] | number[] 
+    reftable:any,
 }
 
-export const ExportBtn: React.FC<IExport> = ({ table,headers }) => {
+export const ExportBtn: React.FC<IExport> = ({ reftable }) => {
+  const table = useAppSelector((state) => state.table.name);
   useEffect(() => {
     let buttonClickCallback = () => {
-      const hot = table.current.hotInstance;
+      const hot = reftable.current.hotInstance;
   
       const data = hot.getData();
       const sheetData = [];
@@ -16,7 +17,7 @@ export const ExportBtn: React.FC<IExport> = ({ table,headers }) => {
       const sheet = utils.aoa_to_sheet(sheetData);
       const workbook = utils.book_new();
       utils.book_append_sheet(workbook, sheet, 'Sheet1');
-      writeFile(workbook, 'test_[YYYY]-[MM]-[DD].xlsx');
+      writeFile(workbook, `${table}.xlsx`);
     };
 
     const exportBtn = document.getElementById("export-file");
@@ -25,7 +26,7 @@ export const ExportBtn: React.FC<IExport> = ({ table,headers }) => {
     return () => {
       exportBtn.removeEventListener("click", buttonClickCallback);
     };
-  }, [table]);
+  }, [reftable]);
 
   return (
     <div>
