@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { read as readXLSX, utils } from "xlsx";
 import { useDropzone } from "react-dropzone";
+import { useDispatch } from "react-redux";
+import { setTable } from "../../store/table/table";
+import { useNavigate } from "react-router";
 
 export const FileUploader = () => {
-  const [data, setData] = useState(null);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
   const handleFile = (file) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -13,9 +16,9 @@ export const FileUploader = () => {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const jsonData = utils.sheet_to_json(sheet, { header: 1 });
-      setData(jsonData);
+      dispatch(setTable(jsonData));
+      navigate('/table')
     };
-
     reader.readAsBinaryString(file);
   };
 
@@ -35,12 +38,6 @@ export const FileUploader = () => {
         <p>Перетащите файл сюда...</p>
       ) : (
         <p>Перетащите файл сюда или кликните, чтобы выбрать файл</p>
-      )}
-      {data && (
-        <div className="data-preview">
-          <h3>Данные из файла:</h3>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
       )}
     </div>
   );

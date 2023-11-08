@@ -8,7 +8,6 @@ import { ExportBtn } from "../export/export";
 import "./style.css";
 import { useAppSelector } from "../../store/hooks";
 
-import { calculateLetters } from "./utils";
 registerAllModules();
 
 export const Table: React.FC = () => {
@@ -21,7 +20,6 @@ export const Table: React.FC = () => {
   if (!table) {
     return <h1>loading</h1>;
   }
-
   return (
     <StyledDashboardWrap>
       <HotTable
@@ -38,10 +36,9 @@ export const Table: React.FC = () => {
         width="100%"
         licenseKey="non-commercial-and-evaluation"
         filters={true}
-        // enable the column menu
         dropdownMenu={true}
       />
-      <ExportBtn reftable={hotRef}/>
+      <ExportBtn reftable={hotRef} />
     </StyledDashboardWrap>
   );
 };

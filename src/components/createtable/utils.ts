@@ -3,15 +3,15 @@ export const changeCell = (
   newStroke: string | null,
   content: string | number | null,
   isOpen: boolean = false,
-  setData: React.Dispatch<React.SetStateAction<any[]>>,
+  setData: React.Dispatch<React.SetStateAction<any[]>>
 ) => {
   setData((prevData) =>
     prevData.map((item) => {
       if (item.id === id) {
-        if (newStroke) {
+        if (newStroke || newStroke === "") {
           return { ...item, newStroke };
         }
-        if (content) {
+        if (content || content === "") {
           return { ...item, content };
         }
         if (isOpen) {
