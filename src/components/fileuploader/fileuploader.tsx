@@ -7,7 +7,12 @@ import { useNavigate } from "react-router";
 
 export const FileUploader = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const onDrop = (acceptedFiles) => {
+    handleFile(acceptedFiles[0]);
+  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   const handleFile = (file) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -17,16 +22,10 @@ export const FileUploader = () => {
       const sheet = workbook.Sheets[sheetName];
       const jsonData = utils.sheet_to_json(sheet, { header: 1 });
       dispatch(setTable(jsonData));
-      navigate('/table')
+      navigate("/table");
     };
     reader.readAsBinaryString(file);
   };
-
-  const onDrop = (acceptedFiles) => {
-    handleFile(acceptedFiles[0]);
-  };
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <div

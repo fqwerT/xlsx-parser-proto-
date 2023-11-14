@@ -1,31 +1,20 @@
-import React,{useEffect,useRef} from "react";
+import React from "react";
 import { useAppSelector } from "../../store/hooks";
-import { utils,writeFile } from "xlsx";
+import { utils, writeFile } from "xlsx";
+import { buttonClickCallback } from "./utills";
+import * as S from './style'
 interface IExport {
-    reftable:React.MutableRefObject<any>,
+  reftable: React.MutableRefObject<any>;
 }
 
 export const ExportBtn: React.FC<IExport> = ({ reftable }) => {
-  const table = useAppSelector((state) => state.table.name);
-  useEffect(() => {
-    let buttonClickCallback = () => {
-      const hot = reftable.current.hotInstance;
-      const data = hot.getData();
-      const sheetData = [];
-      sheetData.push(...data);
-      const sheet = utils.aoa_to_sheet(sheetData);
-      const workbook = utils.book_new();
-      utils.book_append_sheet(workbook, sheet, 'Sheet1');
-      writeFile(workbook, `${table}.xlsx`);
-    };
-    const exportBtn = document.getElementById("export-file");
-    exportBtn.addEventListener("click", buttonClickCallback); 
-    return () => {
-      exportBtn.removeEventListener("click", buttonClickCallback);
-    };
-  }, [reftable]);
-
+  const name = useAppSelector((state) => state.table.name);
   return (
-      <button id="export-file">Скачать таблицу</button>
+    <S.StyledButton
+      id="export-file"
+      onClick={() => buttonClickCallback(reftable, utils, writeFile, name)}
+    >
+      Скачать таблицу {name}
+    </S.StyledButton>
   );
 };

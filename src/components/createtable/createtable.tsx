@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
+} from "react";
 import { StyledDashboardWrap } from "../dashboard/style";
 import * as S from "./style";
 import { HotTable } from "@handsontable/react";
@@ -7,22 +13,22 @@ import "handsontable/dist/handsontable.full.min.css";
 import { HyperFormula } from "hyperformula";
 import { SelectInput } from "../selectinput/Selectinput";
 import { changeCell, createCell, adapterData } from "./utils";
-import { calculateLetters } from "../table/utils";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../store/hooks";
-import { setName, setTable } from "../../store/table/table";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setName} from "../../store/table/table";
+import { ExportBtn } from "../export/export";
 registerAllModules();
 
 export const CreateTable: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
-  const [tableName,setTableName] = useState<string>('')
-  const navigate = useNavigate();
+  const [tableName, setTableName] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const handleCellClick = useCallback((id: string) => {
     setSelected(id);
   }, []);
+
+  const name = useAppSelector((state) => state.table.name);
 
   const changeCellValue = useCallback(
     (
@@ -56,47 +62,55 @@ export const CreateTable: React.FC = () => {
 
   const hotRef = useRef(null);
 
-  const saveData = () => {
-    dispatch(setTable(dataMemo));
-    navigate("/table");
-  };
-
   const deleteCell = (id: string | number) => {
     setData(data.filter((i) => i.id !== id));
   };
-  const handleTableName = (value:string) => {
-        setTableName(value)
-  }
+  const handleTableName = (value: string) => {
+    setTableName(value);
+  };
 
-  useEffect(()=>{
-   if (tableName !== '') {
-     dispatch(setName(tableName))
-   }
-  },[tableName])
+  useEffect(() => {
+    if (tableName !== "") {
+      dispatch(setName(tableName));
+    }
+  }, [tableName]);
 
+
+  const saveData = () => {
+    setOpen(!open);
+    console.log(dataMemo)
+  };
+
+  
   return (
     <StyledDashboardWrap>
-      <S.StyledCreateTableHeader>
-        <S.StyledButton onClick={() => createCell(setData, setSelected)}>
-          Добавить столбец
-        </S.StyledButton>
-        <S.StyledInput placeholder="Название таблицы" onChange={(e) => handleTableName(e.target.value)}/>
-      </S.StyledCreateTableHeader>
-      <S.StyledCellsList id="cellswrap">
-        {data.map((item, index) => (
-          <SelectInput
-            key={index}
-            changeCellValue={changeCellValue}
-            handleCellClick={handleCellClick}
-            item={item}
-            deleteCell={deleteCell}
+      <S.StyledEditHeader $open={open}>
+        <S.StyledCreateTableHeader>
+          <S.StyledButton onClick={() => createCell(setData, setSelected)}>
+            Добавить столбец
+          </S.StyledButton>
+          <S.StyledInput
+            placeholder="Название таблицы"
+            onChange={(e) => handleTableName(e.target.value)}
           />
-        ))}
-      </S.StyledCellsList>
-      <S.StyledTableDemo>
+        </S.StyledCreateTableHeader>
+        <S.StyledCellsList id="cellswrap" $open={open}>
+          {data.map((item, index) => (
+            <SelectInput
+              key={index}
+              changeCellValue={changeCellValue}
+              handleCellClick={handleCellClick}
+              item={item}
+              deleteCell={deleteCell}
+            />
+          ))}
+        </S.StyledCellsList>
+      </S.StyledEditHeader>
+
+      <S.StyledTableDemo $open={open}>
         {data.length !== 0 && (
           <>
-            <h1>Предпросмотр</h1>
+            <h1>{open ? "Редактирование" : "Предпросмотр"}</h1>
             <HotTable
               ref={hotRef}
               data={dataMemo}
@@ -115,8 +129,12 @@ export const CreateTable: React.FC = () => {
         )}
       </S.StyledTableDemo>
       <S.StyledButton onClick={() => saveData()}>
-        Перейти к полному редактирвоанию
+        {open ? 'Конструктор' : 'Перейти к полному редактирвоанию'}
+        
       </S.StyledButton>
+      {
+        open && (<ExportBtn reftable={hotRef}/>)
+      }
     </StyledDashboardWrap>
   );
 };

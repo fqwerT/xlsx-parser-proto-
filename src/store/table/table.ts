@@ -11,7 +11,7 @@ interface CounterState {
 // Define the initial state using that type
 const initialState: CounterState = {
   data: null,
-  name:''
+  name: null
 }
 
 export const tableSlice = createSlice({

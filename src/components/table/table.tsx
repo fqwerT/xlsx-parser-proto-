@@ -8,6 +8,7 @@ import { ExportBtn } from "../export/export";
 import "./style.css";
 import { useAppSelector } from "../../store/hooks";
 
+
 registerAllModules();
 
 export const Table: React.FC = () => {
@@ -15,16 +16,19 @@ export const Table: React.FC = () => {
   const hyperformulaInstance = HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
-  const table = useAppSelector((state) => state.table.data);
+  //const table = useAppSelector((state) => state.table.data);
 
-  if (!table) {
-    return <h1>loading</h1>;
-  }
+ // if (!table) {
+   // return <h1>loading</h1>;
+ //}
+
+
+
   return (
     <StyledDashboardWrap>
       <HotTable
-        ref={hotRef}
-        data={table}
+        ref={hotRef} 
+        //data={tabledata}
         colHeaders={true}
         formulas={{
           engine: hyperformulaInstance,

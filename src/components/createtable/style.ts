@@ -44,14 +44,13 @@ export const StyledCellsContainer = styled.div`
   border: 1px solid gray;
 `;
 
-export const StyledCellsList = styled.article`
+export const StyledCellsList = styled.article<{$open:boolean}>`
   width: 100%;
   display: flex;
   flex-direction: row;
   max-width: 100%;
   overflow-x: auto;
-  min-height: 40%;
-  max-height: 40%;
+  height:100%;
 `;
 
 export const StyledButtonOpenTools = styled.button`
@@ -91,12 +90,26 @@ export const StyledFormulaTool = styled.div<{ $isOpen: boolean }>`
   }
 `;
 
-export const StyledTableDemo = styled.div`
+export const StyledTableDemo = styled.div<{$open:boolean}>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   flex-direction: column;
-  min-height: 50%;
-  max-height: 50%;
+
+ // transition:0.3s linear;
+  height:100%;
+  max-height:  ${({$open}) => ($open === false ? '50%' : '90%' )};
 `;
+
+export const StyledEditHeader = styled.div<{$open:boolean}>`
+width:100%;
+height:100%;
+max-height: ${({$open}) => ($open === false ? "40%" : "0%")};
+visibility: ${({$open}) => ($open === false ? "visible" : "hidden")};
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+`
