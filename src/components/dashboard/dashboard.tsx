@@ -1,11 +1,23 @@
 import React from "react";
-import { StyledDashboardWrap } from "./style";
+import {
+  StyledAvailbibleChanges,
+  StyledDashboardWrap,
+  StyledLatestChanges,
+} from "./style";
 import { FileUploader } from "../fileuploader/fileuploader";
 
 export const Dashboard: React.FC = () => {
   return (
     <StyledDashboardWrap>
-       <FileUploader/>
+      <FileUploader />
+      <StyledAvailbibleChanges>
+        <h1>Доступные Изменени</h1>
+        <p>тестовая таблица 11.11.23</p>
+      </StyledAvailbibleChanges>
+      <StyledLatestChanges>
+        <h1>Последние изменения</h1>
+        <p>тестовая таблица 11.11.23</p>
+      </StyledLatestChanges>
     </StyledDashboardWrap>
   );
 };

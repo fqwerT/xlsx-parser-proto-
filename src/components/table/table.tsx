@@ -16,7 +16,7 @@ export const Table: React.FC = () => {
   const hyperformulaInstance = HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
-  //const table = useAppSelector((state) => state.table.data);
+  const table = useAppSelector((state) => state.table.data);
 
  // if (!table) {
    // return <h1>loading</h1>;
@@ -28,7 +28,7 @@ export const Table: React.FC = () => {
     <StyledDashboardWrap>
       <HotTable
         ref={hotRef} 
-        //data={tabledata}
+        data={table}
         colHeaders={true}
         formulas={{
           engine: hyperformulaInstance,
