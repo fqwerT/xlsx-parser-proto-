@@ -18,12 +18,6 @@ export const Table: React.FC = () => {
   });
   const table = useAppSelector((state) => state.table.data);
 
- // if (!table) {
-   // return <h1>loading</h1>;
- //}
-
-
-
   return (
     <StyledDashboardWrap>
       <HotTable

@@ -22,7 +22,6 @@ export const FileUploader = () => {
       const sheet = workbook.Sheets[sheetName];
       const jsonData = utils.sheet_to_json(sheet, { header: 1 });
       dispatch(setTable(jsonData));
-      console.log(jsonData)
       navigate("/table");
     };
     reader.readAsBinaryString(file);

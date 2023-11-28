@@ -11,7 +11,7 @@ export const Dashboard: React.FC = () => {
     <StyledDashboardWrap>
       <FileUploader />
       <StyledAvailbibleChanges>
-        <h1>Доступные Изменени</h1>
+        <h1>Доступныее Изменения</h1>
         <p>тестовая таблица 11.11.23</p>
       </StyledAvailbibleChanges>
       <StyledLatestChanges>
