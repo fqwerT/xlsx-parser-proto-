@@ -13,21 +13,16 @@ registerAllModules();
 
 export const Table: React.FC = () => {
   const hotRef = useRef(null);
+  
   const hyperformulaInstance = HyperFormula.buildEmpty({
     licenseKey: "internal-use-in-handsontable",
   });
   const table = useAppSelector((state) => state.table.data);
 
- // if (!table) {
-   // return <h1>loading</h1>;
- //}
-
-
-
   return (
     <StyledDashboardWrap>
       <HotTable
-        ref={hotRef} 
+        ref={hotRef}
         data={table}
         colHeaders={true}
         formulas={{
@@ -41,6 +36,7 @@ export const Table: React.FC = () => {
         licenseKey="non-commercial-and-evaluation"
         filters={true}
         dropdownMenu={true}
+        manualColumnResize={true}
       />
       <ExportBtn reftable={hotRef} />
     </StyledDashboardWrap>
