@@ -12,9 +12,9 @@ export const ExportBtn: React.FC<IExport> = ({ reftable }) => {
   return (
     <S.StyledButton
       id="export-file"
-      onClick={() => buttonClickCallback(reftable, utils, writeFile, name)}
+      onClick={() => buttonClickCallback(reftable, utils, writeFile, 'тестовая таблица')}
     >
-      Скачать таблицу {name}
+      Скачать тестовую таблицу
     </S.StyledButton>
   );
 };
