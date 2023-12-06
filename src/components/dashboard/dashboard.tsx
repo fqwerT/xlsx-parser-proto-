@@ -10,10 +10,10 @@ export const Dashboard: React.FC = () => {
   return (
     <StyledDashboardWrap>
       <FileUploader />
-      <StyledAvailbibleChanges>
+      {/* <StyledAvailbibleChanges>
         <h1>Доступные Изменения</h1>
         <p>тестовая таблица 11.11.23</p>
-      </StyledAvailbibleChanges>
+      </StyledAvailbibleChanges> */}
       <StyledLatestChanges>
         <h1>Последние изменения</h1>
         <p>тестовая таблица 11.11.23</p>
