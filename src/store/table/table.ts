@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
+import { TableType } from '../../interface/interface';
 
 
 interface CounterState {
-  data: any[] | undefined;
+  data: TableType;
   name:string;
 }
 

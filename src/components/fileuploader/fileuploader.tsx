@@ -1,31 +1,36 @@
-import React, { useState } from "react";
-import { read as readXLSX, utils } from "xlsx";
+import React, { useCallback,useEffect,useState } from "react";
+//import { read as readXLSX, utils } from "xlsx";
 import { useDropzone } from "react-dropzone";
-import { useDispatch } from "react-redux";
 import { setTable } from "../../store/table/table";
+import { workerScript } from "../../worker/worker";
 import { useNavigate } from "react-router";
+import { useAppDispatch } from "../../store/hooks";
+import { StyledButton } from "../ui/button/button";
+import { loadFile } from "./utils";
+import { read as readXLSX, utils } from "xlsx";
 
-export const FileUploader = () => {
-  const dispatch = useDispatch();
+export const FileUploader: React.FC = (): React.JSX.Element => {
+  const worker = new Worker(workerScript)
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [loaded,setLoaded] = useState<any>()
+
   const onDrop = (acceptedFiles) => {
     handleFile(acceptedFiles[0]);
   };
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleFile = (file) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const bstr = e.target.result as string;
-      const workbook = readXLSX(bstr, { type: "binary" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const jsonData = utils.sheet_to_json(sheet, { header: 1 });
-      dispatch(setTable(jsonData));
-      navigate("/table");
-    };
-    reader.readAsBinaryString(file);
-  };
+  useEffect(() => {
+    worker.addEventListener("message", (e) => {
+
+    console.log(e.data)
+
+    });
+  }, []);
+
+  const handleFile = useCallback((file) => {
+    worker.postMessage(file)
+  }, []);
 
   return (
     <div
@@ -36,7 +41,7 @@ export const FileUploader = () => {
       {isDragActive ? (
         <p>Перетащите файл сюда...</p>
       ) : (
-        <p>Перетащите файл сюда или кликните, чтобы выбрать файл</p>
+        <StyledButton>Импортировать </StyledButton>
       )}
     </div>
   );

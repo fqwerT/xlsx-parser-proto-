@@ -5,6 +5,8 @@ import * as S from "./style";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/hooks";
 import { setName, setTable } from "../../store/table/table";
+import { FileUploader } from "../fileuploader/fileuploader";
+import { StyledButton } from "../ui/button/button";
 export const TablesList: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -86,16 +88,20 @@ export const TablesList: React.FC = () => {
         ],
       ])
     );
-    dispatch(setName('фывфыв'))
-    navigate('/table')
+    dispatch(setName("фывфыв"));
+    navigate("/table");
   };
+
+
   return (
     <StyledDashboardWrap>
+      <S.StyledTablesHeader>
+        <StyledButton onClick={() => navigate("/create")}>Создать</StyledButton>
+        <FileUploader />
+      </S.StyledTablesHeader>
+       <button onClick={()=> console.log('click')}></button>
       <S.StyledTsblesMenu>
         <h1>Таблицы</h1>
-        <S.StyledButtons onClick={() => navigate('/create')}>
-          Создать таблицу
-        </S.StyledButtons>
         <S.StyledTablesList>
           <div onClick={() => testingTable()}>
             <h3>Тестовая таблица</h3>
