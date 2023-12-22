@@ -99,7 +99,6 @@ export const TablesList: React.FC = () => {
         <StyledButton onClick={() => navigate("/create")}>Создать</StyledButton>
         <FileUploader />
       </S.StyledTablesHeader>
-       <button onClick={()=> console.log('click')}></button>
       <S.StyledTsblesMenu>
         <h1>Таблицы</h1>
         <S.StyledTablesList>

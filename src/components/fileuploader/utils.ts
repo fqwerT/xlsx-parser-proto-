@@ -1,19 +1,23 @@
-import { read as readXLSX, utils } from "xlsx";
+import { FileProps } from "../../interface/interface";
 
+export const handleFileUpload = (item: any) => {
+  // const file = e.target.files[0];
+  const formData = new FormData();
+  formData.append("file", item);
 
-export const loadFile = (arg) => {
+  fetch("http://localhost:5000/api/parse", {
+    method: "POST",
+    body: formData, 
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((e) => console.log(e));
+};
 
-    //console.log(typeof arg)
-    //  const blob = new Blob([arg], { type: arg.type });
-    //  const reader = new FileReader();
-    //  reader.onload = (e) => {
-    // const bstr = e.target.result as string;
-    //   const workbook = readXLSX(arg, { type: "binary" });
-    //   const sheetName = workbook.SheetNames[0];
-    //   const sheet = workbook.Sheets[sheetName];      
-    //   const jsonData = utils.sheet_to_json(sheet, { header: 1 });
-    //     console.log(jsonData)
-    //  }
-    // reader.readAsBinaryString(blob);
-
-  }
+export const AsyncUploadFiles = (data: FileProps[]) => {
+  Promise.allSettled(
+    data.map((item) => {
+      handleFileUpload(item);
+    })
+  );
+};

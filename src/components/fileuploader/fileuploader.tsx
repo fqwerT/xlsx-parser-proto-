@@ -1,48 +1,28 @@
-import React, { useCallback,useEffect,useState } from "react";
-//import { read as readXLSX, utils } from "xlsx";
-import { useDropzone } from "react-dropzone";
-import { setTable } from "../../store/table/table";
-import { workerScript } from "../../worker/worker";
-import { useNavigate } from "react-router";
-import { useAppDispatch } from "../../store/hooks";
-import { StyledButton } from "../ui/button/button";
-import { loadFile } from "./utils";
-import { read as readXLSX, utils } from "xlsx";
+import React, { useCallback, useState } from "react";
+import { AsyncUploadFiles } from "./utils";
+import { FileList } from "../filesList/fileList";
+import { FileProps } from "../../interface/interface";
+import * as S from './style'
 
 export const FileUploader: React.FC = (): React.JSX.Element => {
-  const worker = new Worker(workerScript)
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [loaded,setLoaded] = useState<any>()
+  const [files, setFiles] = useState<FileProps[]>([]);
 
-  const onDrop = (acceptedFiles) => {
-    handleFile(acceptedFiles[0]);
-  };
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-  useEffect(() => {
-    worker.addEventListener("message", (e) => {
-
-    console.log(e.data)
-
-    });
+  const uploadFile = useCallback((e) => {
+    if (e.target.files[0]) {
+      setFiles((prev) => [...prev, e.target.files[0]]);
+    }
   }, []);
 
-  const handleFile = useCallback((file) => {
-    worker.postMessage(file)
-  }, []);
+  const sendFile = useCallback(() => {
+    AsyncUploadFiles(files);
+  }, [files]);
 
   return (
-    <div
-      {...getRootProps()}
-      className={`dropzone ${isDragActive ? "active" : ""}`}
-    >
-      <input {...getInputProps()} />
-      {isDragActive ? (
-        <p>Перетащите файл сюда...</p>
-      ) : (
-        <StyledButton>Импортировать </StyledButton>
-      )}
-    </div>
+    <S.StyledUploader>
+      <input type="file" onChange={uploadFile} />
+      <FileList data={files} />
+      <button onClick={() => sendFile()}>сохранить</button>
+      <button>отмена</button>
+    </S.StyledUploader>
   );
 };
