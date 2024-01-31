@@ -1,11 +1,15 @@
-import React, { useCallback, useState } from "react";
-import { AsyncUploadFiles } from "./utils";
+import React, { useCallback, useState, useMemo } from "react";
+import { AsyncUploadFiles, removeDuplicates } from "./utils";
 import { FileList } from "../filesList/fileList";
 import { FileProps } from "../../interface/interface";
-import * as S from './style'
+import { useAppDispatch } from "../../store/hooks";
+import * as S from "./style";
+import { setTable } from "../../store/table/table";
 
 export const FileUploader: React.FC = (): React.JSX.Element => {
   const [files, setFiles] = useState<FileProps[]>([]);
+  const [status, setStatus] = useState<any>([]);
+  const dispatch = useAppDispatch();
 
   const uploadFile = useCallback((e) => {
     if (e.target.files[0]) {
@@ -14,15 +18,30 @@ export const FileUploader: React.FC = (): React.JSX.Element => {
   }, []);
 
   const sendFile = useCallback(() => {
-    AsyncUploadFiles(files);
+    
+    AsyncUploadFiles(files, setStatus,status);
+  }, [files,status]);
+
+  const handlePreview = (item) => {
+    dispatch(setTable(item));
+  };
+
+  const filteredFiles = useMemo(() => {
+    return removeDuplicates(files);
   }, [files]);
+  
+
 
   return (
     <S.StyledUploader>
       <input type="file" onChange={uploadFile} />
-      <FileList data={files} />
-      <button onClick={() => sendFile()}>сохранить</button>
-      <button>отмена</button>
+      {files.length > 0 && (
+        <>
+          <FileList data={filteredFiles} prev={handlePreview} status={status} />
+          <button onClick={() => sendFile()}>сохранить</button>
+          <button>закрыть</button>
+        </>
+      )}
     </S.StyledUploader>
   );
 };

@@ -6,7 +6,6 @@ import { Layout } from "./layouts/layout";
 import { Dashboard } from "./components/dashboard/dashboard";
 import { TablesList } from "./components/tables/tables";
 import { Table } from "./components/table/table";
-import { CreateTable } from "./components/createtable/createtable";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 const rootElement = document.getElementById("root");
@@ -31,10 +30,10 @@ const router = createBrowserRouter([
         path: "/table",
         element: <Table />,
       },
-      {
-        path: "/create",
-        element: <CreateTable />,
-      },
+      // {
+      //   path: "/create",
+      //   element: <CreateTable />,
+      // },
     ],
   },
 ]);

@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { HotTable } from "@handsontable/react";
 import { registerAllModules } from "handsontable/registry";
 import "handsontable/dist/handsontable.full.min.css";
@@ -10,11 +10,13 @@ import { RootState } from "../../store/store";
 import { shallowEqual } from "react-redux";
 import "./style.css";
 import { dataClone } from "./utils";
-
+import { useAppDispatch } from "../../store/hooks";
+import { setTable } from "../../store/table/table";
 registerAllModules();
 
 export const Table: React.FC = (): React.JSX.Element => {
   const hotRef = useRef(null);
+  const dispatch = useAppDispatch();
   const tableState = useAppSelector(
     (state: RootState) => state.table.data,
     shallowEqual
@@ -24,13 +26,19 @@ export const Table: React.FC = (): React.JSX.Element => {
     licenseKey: "internal-use-in-handsontable",
   });
 
-  const tableData = useMemo(() => dataClone(tableState), [tableState]);
-  console.log(tableData);
+  useEffect(() => {
+    function cleanUp() {
+      dispatch(setTable([]));
+    }
+    return cleanUp;
+  }, []);
+
+  console.log(tableState);
   return (
     <StyledDashboardWrap>
       <HotTable
         ref={hotRef}
-        data={tableData}
+        data={tableState}
         colHeaders={true}
         formulas={{
           engine: hyperformulaInstance,

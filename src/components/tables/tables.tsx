@@ -14,89 +14,76 @@ export const TablesList: React.FC = () => {
   const testingTable = () => {
     dispatch(
       setTable([
-        [
-          "Обновить",
-          "Типовые шкафы",
-          "118.290 нов",
-          "Гильза опрессуемая с изоляцией DI 0 5-8 GPH",
-          "да",
-          "F",
-          "5",
-          "10",
-          "42",
-          "21",
-          "13",
-          "3,00",
-          "18.09.2023",
-          "",
-          "17.12.23",
-          "1,3",
-          "1,3",
-          "1 251,5",
-          "1 251,5",
-          "коэф по письму Гресько",
-          "0,65",
-          "КОМПАНИЯ АЙСИЭС ООО ",
-          "DI 0,5-8",
-          "1,58",
-          "1,58",
-          "1,00 ",
-          "руб",
-          "шт",
-          "1,00",
-          "да",
-          "нет",
-          "Посадских, Гресько Роман Славович",
-          "Игорь Ахматов <igor.akhmatov@dowire.ru>",
-          "",
-        ],
-        [
-          "Запрос на обновление",
-          "ТИП",
-          "Артикул",
-          "Наименование",
-          "Доступно",
-          "FMRS",
-          "Avg_20-21",
-          "2021",
-          "2020",
-          "2019",
-          "2018",
-          "Частота обновления",
-          "мес  Последнее обновление",
-          "ДЕЙСТВИЕ",
-          "Срок действия цен",
-          "Цена без НДС",
-          "Цена без НДС за шт.",
-          "Цена без НДС за шт. руб",
-          "Цена без НДС с учетом UM",
-          "Примечаниe",
-          "Цена за ед без НДС, руб c UM",
-          "Поставщик",
-          "Артикул поставщика",
-          "Цена РУБ без НДС",
-          "Цена в валюте без НДС",
-          "КУРС",
-          "Валюта",
-          "Ед",
-          "Кол-во в упак шт.",
-          "учет НДС",
-          "учет UPSTR",
-          "Ответственный",
-          "Контактное лицо от поставщика",
-          "CHECKER",
-        ],
+        {
+          ID: 1,
+          Months: "January",
+          ListMonths: "January",
+          __EMPTY_3: "Select Month",
+        },
+
+        {
+          ID: 2,
+          Months: "February",
+          ListMonths: "February",
+          __EMPTY_3: "August",
+        },
+        { 
+          ID: 3, 
+          Months: "March", 
+          ListMonths: "March" 
+        },
+        {
+          ID: 4,
+          Months: "April",
+          ListMonths: "April",
+        },
+        {
+          ID: "",
+          ListMonths: "June",
+        },
+        {
+          ID: 5,
+          Months: "June",
+          ListMonths: "July",
+        },
+        {
+          ID: 6,
+          Months: "July",
+          ListMonths: "August",
+        },
+        {
+          ID: 7,
+          Months: "August",
+          ListMonths: "October",
+        },
+        {
+          ID: "",
+          ListMonths: "December",
+        },
+        {
+          ID: 8,
+          Months: "October",
+          ListMonths: "",
+        },
+        {
+          ID: "",
+          ListMonths: "",
+        },
+        {
+          ID: 9,
+          Months: "December",
+          ListMonths: "",
+        },
       ])
     );
     dispatch(setName("фывфыв"));
     navigate("/table");
   };
 
-
   return (
     <StyledDashboardWrap>
       <S.StyledTablesHeader>
-        <StyledButton onClick={() => navigate("/create")}>Создать</StyledButton>
+        {/* <StyledButton onClick={() => navigate("/create")}>Создать</StyledButton> */}
         <FileUploader />
       </S.StyledTablesHeader>
       <S.StyledTsblesMenu>
