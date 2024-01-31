@@ -1,0 +1,31 @@
+// {
+//     "compilerOptions": {
+//       "target": "es5",
+//       "lib": ["dom", "dom.iterable", "esnext"],
+//       "allowJs": true,
+//       "skipLibCheck": true,
+//       "esModuleInterop": true,
+//       "allowSyntheticDefaultImports": true,
+//       "strict": false,
+//       "forceConsistentCasingInFileNames": true,
+//       "noFallthroughCasesInSwitch": true,
+//       "module": "commonjs", // Change here
+//       "resolveJsonModule": true,
+//       "moduleResolution": "node",
+//       "experimentalDecorators": true,
+//       "isolatedModules": true,
+//       "noEmit": true
+//     },
+//     "include": ["."]
+//   }
+
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      // Other options...
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
+  }
