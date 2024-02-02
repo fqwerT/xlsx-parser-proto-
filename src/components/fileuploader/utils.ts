@@ -24,7 +24,7 @@ export const handleFileUpload = (item: any, setStatus: any, status: any) => {
         setStatus((prev) =>
           prev.map((el) => {
             if (el.name === item.name) {
-              return { ...el, status: "success", success: true };
+              return { ...el, status: "success", success: true, data: data };
             }
             return el;
           })
@@ -52,12 +52,12 @@ export const AsyncUploadFiles = (
     data.map((item) => {
       handleFileUpload(item, setStatus, status);
     })
-  ).then(res => console.log(res))
+  );
 };
 
 export const removeDuplicates = (arr: FileProps[]) => {
-  var uniqueObj = {};
-  var result = [];
+  let uniqueObj = {};
+  let result = [];
 
   arr.forEach(function (obj: FileProps) {
     if (!uniqueObj[obj.name]) {
